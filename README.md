@@ -8,7 +8,7 @@
 ### Clone repository
 ```bash
 $ git clone
-$ cd weather-bot
+$ cd weather-bot/bot
 ```
 
 ### Install Python 3.9+ and pip
@@ -42,9 +42,8 @@ $ sudo systemctl start weather-bot
 ## Usage
 ### If service is not set up:
 ```bash
-$ cd weather-bot/
+$ cd weather-bot/bot
 $ source .venv/bin/activate
-$ cd bot
 $ python3 main.py
 ```
 ### If service is set up:

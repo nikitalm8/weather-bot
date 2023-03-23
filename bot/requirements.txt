@@ -1,0 +1,6 @@
+aiogram     ~= 3.0.0b7
+aiosqlite   ~= 0.18.0
+matplotlib  ~= 3.7.0
+pyyaml      ~= 5.4.1
+sqlalchemy  >= 2.0.0
+cachetools  ~= 5.3.0

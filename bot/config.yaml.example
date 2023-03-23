@@ -1,0 +1,26 @@
+token: bot-token
+database_url: sqlite+aiosqlite:///app/database/prod.db
+# postgresql+asyncpg:// | mysql+aiomysql:// | sqlite+aiosqlite://
+
+admins:
+
+  # format:
+  #
+  #  - user_id
+
+ - 0
+
+popular_places:
+
+  # format:
+  #
+  #  - name: str
+  #    latitude: float
+  #    longitude: float
+
+  - name: Moscow
+    latitude: 55.755826
+    longitude: 37.6173
+
+weather_token: weather-token
+debug: false
