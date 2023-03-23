@@ -1,4 +1,4 @@
-# Simpl Weather Bot
+# Simple Weather Bot
 
 ## Requirements
 - Python 3.9+
