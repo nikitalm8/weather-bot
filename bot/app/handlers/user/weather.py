@@ -1,3 +1,4 @@
+from app.filters import NoLocation
 from app.utils.weather import WeatherClient
 from app.database.models import User
 
@@ -102,8 +103,15 @@ async def inline_share(query: types.InlineQuery, user: User, weather: WeatherCli
         
     else:
         
+        if not (user.latitude and user.longitude):
+            
+            return await query.answer(
+                results=[],
+                switch_pm_text='Активировать бота',
+                switch_pm_parameter='true',
+            )
+        
         lat, lon = user.latitude, user.longitude
-    
     
     current_weather = await get_weather(lat, lon, weather)
     await query.answer(
