@@ -1,4 +1,3 @@
-from app.filters import NoLocation
 from app.utils.weather import WeatherClient
 from app.database.models import User
 
@@ -9,7 +8,7 @@ from contextlib import suppress
 from cachetools import TTLCache
 
 from aiogram import Router, types, exceptions
-from aiogram.filters import Text, command
+from aiogram.filters import Text, Command
 
 
 WEATHER_CACHE = TTLCache(
@@ -133,9 +132,11 @@ async def inline_share(query: types.InlineQuery, user: User, weather: WeatherCli
 def reg_handlers(router: Router):
 
     router.message.register(user_weather, Text('Погода ☀️'))
+    router.message.register(user_weather, Command('weather'))
     router.callback_query.register(user_weather, Text('myweather'))
     
     router.message.register(popular_places, Text('Популярные места 🏙'))
+    router.message.register(popular_places, Command('popular'))
     router.callback_query.register(popular_places, Text('back'))
     
     router.callback_query.register(place_weather, Text(startswith='weather:'))
