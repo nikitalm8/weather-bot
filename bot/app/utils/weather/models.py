@@ -9,31 +9,31 @@ class WeatherType(BaseModel):
     main: str
     description: str
     icon: str
-    
-    
+
+
 class Coord(BaseModel):
     
     lon: float
     lat: float
-    
-    
+
+
 class Main(BaseModel):
     
     temp: float
     feels_like: float
     temp_min: float
     temp_max: float
-    pressure: int
-    humidity: int
-    sea_level: int
-    grnd_level: int
+    pressure: int | None = None
+    humidity: int | None = None
+    sea_level: int | None = None
+    grnd_level: int | None = None
     
 
 class Wind(BaseModel):
     
-    speed: float
-    deg: int
-    gust: float
+    speed: float | None = None
+    deg: int | None = None
+    gust: float | None = None
     
 
 class Rain(BaseModel):
@@ -50,7 +50,7 @@ class Snow(BaseModel):
     
 class Clouds(BaseModel):
     
-    all: int
+    all: int | None = None
     
 
 class Sys(BaseModel):
