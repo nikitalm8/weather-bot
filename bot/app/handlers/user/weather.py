@@ -108,6 +108,8 @@ async def inline_share(query: types.InlineQuery, user: User, weather: WeatherCli
                 results=[],
                 switch_pm_text='Активировать бота',
                 switch_pm_parameter='true',
+                is_personal=True,
+                cache_time=0,
             )
         
         lat, lon = user.latitude, user.longitude
@@ -125,6 +127,8 @@ async def inline_share(query: types.InlineQuery, user: User, weather: WeatherCli
                 ),
             ),
         ],
+        is_personal=True,
+        cache_time=0,
     )
                     
 
