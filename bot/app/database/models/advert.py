@@ -1,24 +1,19 @@
 from . import Base
 
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    Boolean,
-)
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class Advert(Base):
     __tablename__ = 'adverts'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
-    type = Column(Integer)
-    title = Column(String)
-    text = Column(String)
-    file_id = Column(String)
-    markup = Column(String)
+    type: Mapped[int] = mapped_column()
+    title: Mapped[str] = mapped_column()
+    text: Mapped[str] = mapped_column()
+    file_id: Mapped[str] = mapped_column()
+    markup: Mapped[str] = mapped_column()
 
-    views = Column(Integer, default=0)
-    target = Column(Integer)
-    is_active = Column(Boolean, default=True)
+    views: Mapped[int] = mapped_column(default=0)
+    target: Mapped[int] = mapped_column()
+    is_active: Mapped[bool] = mapped_column(default=True)
