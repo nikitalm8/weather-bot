@@ -2,51 +2,45 @@ import logging
 
 from app.database.models import Base
 
-from sqlalchemy.orm import sessionmaker  
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import (
+    AsyncSession, 
+    AsyncEngine, 
+    create_async_engine, 
+    async_sessionmaker,
+)
 
 
-class Database:
+log = logging.getLogger('database.engine')
 
-    def __init__(self, database_url: str, debug: bool=False):
+async def create_tables(engine: AsyncEngine, debug: bool=False) -> None:
 
-        logger = logging.getLogger('database.engine')
-        
-        if 'sqlite' in database_url:
+    async with engine.begin() as conn:
 
-            logger.warning(
-                "Using SQLite database in production is not recommended"
-            )
+        if debug:
 
-        self.engine = create_async_engine(
-            database_url, future=True, pool_pre_ping=True
+            await conn.run_sync(Base.metadata.drop_all)
+            
+        await conn.run_sync(Base.metadata.create_all)
+
+
+async def create_sessionmaker(database_url: str, debug: bool=False) -> async_sessionmaker:
+    """
+    Create an async sessionmaker for the database and create tables if they don't exist.
+
+    :param str database_url: SQLAlchemy database URL
+    :param bool debug: Debug mode, defaults to False
+    :return async_sessionmaker: Async sessionmaker (sessionmaker with AsyncSession class)
+    """
+
+    if 'sqlite' in database_url:
+
+        log.warning(
+            "Using SQLite database in production is not recommended"
         )
-        self.sessionmaker = sessionmaker(
-            self.engine, expire_on_commit=False, class_=AsyncSession
-        )
-        self.debug = debug
 
-    async def create_tables(self):
+    engine = create_async_engine(
+        database_url, future=True,
+    )
+    await create_tables(engine, debug)
 
-        async with self.engine.begin() as conn:
-
-            if self.debug:
-
-                await conn.run_sync(Base.metadata.drop_all)
-                
-            await conn.run_sync(Base.metadata.create_all)
-
-    @classmethod
-    async def init(cls, database_url: str, debug: bool=False) -> "Database":
-
-        instance = cls(database_url, debug)
-        await instance.create_tables()
-
-        return instance
-
-
-async def create_sessionmaker(database_url: str, debug: bool=False) -> sessionmaker:
-
-    database = await Database.init(database_url, debug)
-
-    return database.sessionmaker
+    return async_sessionmaker(engine, expire_on_commit=False)

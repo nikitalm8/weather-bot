@@ -9,15 +9,14 @@ from aiogram import Router, types, exceptions
 from aiogram.filters import Text
 
 from sqlalchemy import update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
-async def notsubbed(message: types.Message, sponsors: list, session, user: User):
+async def notsubbed(message: types.Message, session: AsyncSession, user: User, sponsors: list[Sponsor]):
 
     await message.answer(
         texts.user.NOT_SUBBED,
-        reply_markup=nav.inline.subscription(
-            sponsors,
-        )
+        reply_markup=nav.inline.subscription(sponsors)
     )
 
     if user.subbed:
@@ -26,11 +25,9 @@ async def notsubbed(message: types.Message, sponsors: list, session, user: User)
         await session.commit()
         
 
-async def notsubbed_cb(call: types.CallbackQuery, sponsors: list, session, user: User):
+async def notsubbed_cb(call: types.CallbackQuery, session: AsyncSession, user: User, sponsors: list[Sponsor]):
 
-    await call.answer(
-        'Вы не подписаны на одного из спонсоров.'
-    )
+    await call.answer('Вы не подписаны на одного из спонсоров.', True)
 
     with suppress(exceptions.TelegramAPIError):
 

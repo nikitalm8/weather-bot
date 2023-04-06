@@ -8,12 +8,13 @@ from aiogram import BaseMiddleware
 from aiogram.types import Update
 
 from sqlalchemy.future import select
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
 
 class UserMiddleware(BaseMiddleware):
     
 
-    def __init__(self, sessionmaker):
+    def __init__(self, sessionmaker: async_sessionmaker):
 
         self.sessionmaker = sessionmaker
 

@@ -4,8 +4,10 @@ from app.database.models import User
 
 from aiogram import Bot, Dispatcher, types
 
+from sqlalchemy.ext.asyncio import AsyncSession
 
-async def block_user(update: types.ChatMemberUpdated, user: User, session):
+
+async def block_user(update: types.ChatMemberUpdated, user: User, session: AsyncSession):
 
     if update.new_chat_member.status in ("left", "kicked", None):
 

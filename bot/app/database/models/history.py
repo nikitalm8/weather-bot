@@ -1,17 +1,14 @@
 from . import Base
 
-from sqlalchemy import (
-    Column,
-    BigInteger,
-    Integer,
-)
+from sqlalchemy import BigInteger
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class History(Base):
     __tablename__ = 'history'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
-    user_id = Column(BigInteger)
-    ad_id = Column(Integer)
-    time = Column(Integer)
+    user_id: Mapped[BigInteger] = mapped_column()
+    ad_id: Mapped[int] = mapped_column()
+    time: Mapped[int] = mapped_column()
